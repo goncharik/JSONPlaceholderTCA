@@ -22,7 +22,9 @@ let package = Package(
     targets: [
         .target(
             name: rangeInputFeature,
-            dependencies: []),
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]),
         .testTarget(
             name: rangeInputFeatureTests,
             dependencies: [

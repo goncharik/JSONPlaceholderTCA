@@ -19,7 +19,7 @@
 		446E445928E475A90099BE33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		446E445B28E475AA0099BE33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		446E445E28E475AA0099BE33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		44CBB8CF28E4810200AAC7F6 /* JSONPlaceholderTCA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JSONPlaceholderTCA; sourceTree = "<group>"; };
+		44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JSONPlaceholderTCA; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +36,7 @@
 		446E444B28E475A90099BE33 = {
 			isa = PBXGroup;
 			children = (
-				44CBB8CF28E4810200AAC7F6 /* JSONPlaceholderTCA */,
+				44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */,
 				446E445628E475A90099BE33 /* App */,
 				446E445528E475A90099BE33 /* Products */,
 			);

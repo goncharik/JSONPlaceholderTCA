@@ -8,15 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		446E445828E475A90099BE33 /* JSONPlaceholderTCAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E445728E475A90099BE33 /* JSONPlaceholderTCAApp.swift */; };
-		446E445A28E475A90099BE33 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446E445928E475A90099BE33 /* ContentView.swift */; };
 		446E445C28E475AA0099BE33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446E445B28E475AA0099BE33 /* Assets.xcassets */; };
 		446E445F28E475AA0099BE33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446E445E28E475AA0099BE33 /* Preview Assets.xcassets */; };
+		44C4819628E48EDC00E1AA71 /* RangeInputFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 44C4819528E48EDC00E1AA71 /* RangeInputFeature */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		446E445428E475A90099BE33 /* JSONPlaceholderTCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONPlaceholderTCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		446E445728E475A90099BE33 /* JSONPlaceholderTCAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPlaceholderTCAApp.swift; sourceTree = "<group>"; };
-		446E445928E475A90099BE33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		446E445B28E475AA0099BE33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		446E445E28E475AA0099BE33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JSONPlaceholderTCA; sourceTree = "<group>"; };
@@ -27,6 +26,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44C4819628E48EDC00E1AA71 /* RangeInputFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +39,7 @@
 				44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */,
 				446E445628E475A90099BE33 /* App */,
 				446E445528E475A90099BE33 /* Products */,
+				44C4819428E48EDC00E1AA71 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				446E445728E475A90099BE33 /* JSONPlaceholderTCAApp.swift */,
-				446E445928E475A90099BE33 /* ContentView.swift */,
 				446E445B28E475AA0099BE33 /* Assets.xcassets */,
 				446E445D28E475AA0099BE33 /* Preview Content */,
 			);
@@ -67,6 +67,13 @@
 				446E445E28E475AA0099BE33 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		44C4819428E48EDC00E1AA71 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +92,9 @@
 			dependencies = (
 			);
 			name = JSONPlaceholderTCA;
+			packageProductDependencies = (
+				44C4819528E48EDC00E1AA71 /* RangeInputFeature */,
+			);
 			productName = JSONPlaceholderTCA;
 			productReference = 446E445428E475A90099BE33 /* JSONPlaceholderTCA.app */;
 			productType = "com.apple.product-type.application";
@@ -139,7 +149,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				446E445A28E475A90099BE33 /* ContentView.swift in Sources */,
 				446E445828E475A90099BE33 /* JSONPlaceholderTCAApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,7 +277,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"JSONPlaceholderTCA/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 9DB8872T2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -277,6 +286,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -297,7 +307,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"JSONPlaceholderTCA/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 9DB8872T2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -306,6 +316,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,6 +352,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		44C4819528E48EDC00E1AA71 /* RangeInputFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RangeInputFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 446E444C28E475A90099BE33 /* Project object */;
 }

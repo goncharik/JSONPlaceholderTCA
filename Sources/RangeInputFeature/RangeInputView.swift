@@ -51,7 +51,7 @@ public struct RangeInputView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert(store.scope(state: \.validationAlert), dismiss: .validationMessageDismissed)
+        .alert(store.scope(state: \.alert), dismiss: .validationMessageDismissed)
     }
 }
 
@@ -62,7 +62,7 @@ struct RangeInputView_Previews: PreviewProvider {
         RangeInputView(store: Store<RangeInputState, RangeInputAction>(
             initialState: RangeInputState(),
             reducer: rangeInputReducer,
-            environment: RangeInputEnvironment()
+            environment: RangeInputEnvironment(commentsClient: .failure)
             )
         )
     }

@@ -1,4 +1,6 @@
+import CommentsClient
 import ComposableArchitecture
+import Models
 
 // MARK: - State
 
@@ -7,7 +9,7 @@ public struct RangeInputState: Equatable {
     var upperBound: Int?
     
     var isLoading: Bool = false
-    var validationAlert: AlertState<RangeInputAction>?
+    var alert: AlertState<RangeInputAction>?
 
     public init() {}
 }
@@ -18,12 +20,18 @@ public enum RangeInputAction: Equatable {
     case updateUpperBound(String)
     case goButtonTapped
     case validationMessageDismissed
+    
+    case didLoadComments(Result<[Comment], ClientError>)
 }
 
 // MARK: - Environment
 
 public struct RangeInputEnvironment {
-    public init() {}
+    var commentsClient: CommentsClient
+    
+    public init(commentsClient: CommentsClient) {
+        self.commentsClient = commentsClient
+    }
 }
 
 // MARK: - Reducer
@@ -41,7 +49,7 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
             return .none
         case .goButtonTapped:
             if let lowerBound = state.lowerBound, let upperBound = state.upperBound, lowerBound >= upperBound {
-                state.validationAlert = AlertState(
+                state.alert = AlertState(
                     title: .init("Validation Error"),
                     message: .init("Lower bound should be lower than upper bound."),
                     dismissButton: .cancel(.init("OK"))
@@ -50,9 +58,24 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
                 
             }
             //TODO: fetch regular request
-            return .none
+            let limit = 10
+            
+            return environment.commentsClient.fetch(state.lowerBound, limit)
+                .catchToEffect()
+                .map(RangeInputAction.didLoadComments)                
         case .validationMessageDismissed:
-            state.validationAlert = nil
+            state.alert = nil
+            return .none
+        case .didLoadComments(.success(let comments)):
+            state.isLoading = false
+            return .none
+        case .didLoadComments(.failure):
+            state.isLoading = false
+            state.alert = AlertState(
+                title: .init("Loading Error"),
+                message: .init("Something went wrong. Please try again"),
+                dismissButton: .cancel(.init("OK"))
+            )
             return .none
         }
     }

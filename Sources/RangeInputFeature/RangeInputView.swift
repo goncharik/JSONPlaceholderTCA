@@ -20,8 +20,8 @@ public struct RangeInputView: View {
                 VStack(alignment: .leading) {
                     Text("Lower Bound")
                     TextField(
-                        "0",
-                        text: Binding(get: { viewStore.lowerBound != 0 ? "\(viewStore.lowerBound)" : "" }, set: { viewStore.send(.updateLowerBound($0)) } )
+                        "no bound",
+                        text: Binding(get: { viewStore.lowerBound != nil ? "\(viewStore.lowerBound!)" : "" }, set: { viewStore.send(.updateLowerBound($0)) } )
                     )
                     .font(.title)
                     .keyboardType(.numberPad)
@@ -31,7 +31,7 @@ public struct RangeInputView: View {
                     Text("Upper Bound")
                     TextField(
                         "no bound",
-                        text: Binding(get: { viewStore.upperBound != 0 ? "\(viewStore.upperBound)" : "" }, set: { viewStore.send(.updateUpperBound($0)) } )
+                        text: Binding(get: { viewStore.upperBound != nil ? "\(viewStore.upperBound!)" : "" }, set: { viewStore.send(.updateUpperBound($0)) } )
                     )
                     .font(.title)
                     .keyboardType(.numberPad)
@@ -51,7 +51,7 @@ public struct RangeInputView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-
+        .alert(store.scope(state: \.validationAlert), dismiss: .validationMessageDismissed)
     }
 }
 

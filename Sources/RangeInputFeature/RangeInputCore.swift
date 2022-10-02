@@ -1,5 +1,7 @@
 import CommentsClient
+import CommentsListFeature
 import ComposableArchitecture
+import Foundation
 import Models
 
 // MARK: - State
@@ -10,6 +12,8 @@ public struct RangeInputState: Equatable {
     
     var isLoading: Bool = false
     var alert: AlertState<RangeInputAction>?
+    
+    var commentsListState: CommentsListState?
 
     public init() {}
 }
@@ -19,18 +23,24 @@ public enum RangeInputAction: Equatable {
     case updateLowerBound(String)
     case updateUpperBound(String)
     case goButtonTapped
+    case cancelButtonTapped
     case validationMessageDismissed
     
     case didLoadComments(Result<[Comment], ClientError>)
+    
+    case commentsListDismissed
+    case commentsList(CommentsListAction)
 }
 
 // MARK: - Environment
 
 public struct RangeInputEnvironment {
+    var mainQueue: AnySchedulerOf<DispatchQueue>
     var commentsClient: CommentsClient
     
-    public init(commentsClient: CommentsClient) {
+    public init(commentsClient: CommentsClient, mainQueue: AnySchedulerOf<DispatchQueue>) {
         self.commentsClient = commentsClient
+        self.mainQueue = mainQueue
     }
 }
 
@@ -38,8 +48,9 @@ public struct RangeInputEnvironment {
 
 public let rangeInputReducer =
 Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
-    Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment> {
-        state, action, environment in
+    Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment> { state, action, environment in
+        enum CancelID {}
+        
         switch action {
         case .updateLowerBound(let bound):
             state.lowerBound = Int(bound)
@@ -57,17 +68,35 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
                 return .none
                 
             }
-            //TODO: fetch regular request
+            state.isLoading = true
+            #warning("Add check for upper bound limit")
             let limit = 10
             
-            return environment.commentsClient.fetch(state.lowerBound, limit)
-                .catchToEffect()
-                .map(RangeInputAction.didLoadComments)                
+            #warning("Replace with 3 in production")
+            let waitSeconds = 1
+            
+            return Effect.task {
+                try await environment.mainQueue.sleep(for: .seconds(waitSeconds))
+                return ()
+            }
+            .combineLatest(environment.commentsClient.fetch(state.lowerBound, limit).catchToEffect())
+            .map { $1 }
+            .eraseToEffect()
+            .map(RangeInputAction.didLoadComments)
+            .cancellable(id: CancelID.self)
+                
+        case .cancelButtonTapped:
+            state.isLoading = false
+            return .cancel(id: CancelID.self)
         case .validationMessageDismissed:
             state.alert = nil
             return .none
         case .didLoadComments(.success(let comments)):
             state.isLoading = false
+            state.commentsListState = .init()
+            return .none
+        case .commentsListDismissed:
+            state.commentsListState = nil
             return .none
         case .didLoadComments(.failure):
             state.isLoading = false
@@ -76,6 +105,8 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
                 message: .init("Something went wrong. Please try again"),
                 dismissButton: .cancel(.init("OK"))
             )
+            return .none
+        case .commentsList:
             return .none
         }
     }

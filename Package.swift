@@ -5,6 +5,8 @@ import PackageDescription
 
 let commentsClient = "CommentsClient"
 let commentsClientTests = "CommentsClientTests"
+let commentsListFeature = "CommentsListFeature"
+let commentsListFeatureTests = "CommentsListFeatureTests"
 let models = "Models"
 let rangeInputFeature = "RangeInputFeature"
 let rangeInputFeatureTests = "RangeInputFeatureTests"
@@ -15,6 +17,7 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [
         .library(name: commentsClient, targets: [commentsClient]),
+        .library(name: commentsListFeature, targets: [commentsListFeature]),
         .library(name: models, targets: [models]),
         .library(name: rangeInputFeature, targets: [rangeInputFeature]),
     ],
@@ -26,6 +29,12 @@ let package = Package(
         .target(name: commentsClient, dependencies: [.byName(name: models)]),
         .testTarget(name: commentsClientTests, dependencies: [.byName(name: commentsClient)]),
         
+        .target(name: commentsListFeature, dependencies: [
+            .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            .byName(name: commentsClient)
+        ]),
+        .testTarget(name: commentsListFeatureTests, dependencies: [.byName(name: commentsListFeature)]),
+        
         .target(name: models),
         
         .target(
@@ -34,6 +43,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 
                 .byName(name: commentsClient),
+                .byName(name: commentsListFeature),
                 .byName(name: models),                
             ]),
         .testTarget(

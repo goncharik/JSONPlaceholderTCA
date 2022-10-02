@@ -6,13 +6,15 @@ import SwiftUI
 struct JSONPlaceholderTCAApp: App {
     var body: some Scene {
         WindowGroup {
-            RangeInputView(
-                store: Store<RangeInputState, RangeInputAction>(
-                    initialState: RangeInputState(),
-                    reducer: rangeInputReducer,
-                    environment: RangeInputEnvironment(commentsClient: .live)
+            NavigationView {
+                RangeInputView(
+                    store: Store<RangeInputState, RangeInputAction>(
+                        initialState: RangeInputState(),
+                        reducer: rangeInputReducer,
+                        environment: RangeInputEnvironment(commentsClient: .live, mainQueue: .main)
+                    )
                 )
-            )
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ public struct CommentsListView: View {
 struct CommentsListView_Previews: PreviewProvider {
     static var previews: some View {
         CommentsListView(store: Store<CommentsListState, CommentsListAction>(
-            initialState: CommentsListState(),
+            initialState: CommentsListState(lowerBound: 0, upperBound: nil, items: []),
             reducer: commentsListReducer,
             environment: CommentsListEnvironment()
             )

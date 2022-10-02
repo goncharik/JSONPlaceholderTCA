@@ -23,10 +23,16 @@ let package = Package(
     ],
     dependencies: [
         //Architecture Framework
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.40.0")
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.40.0"),
+        
+        //A library of data structures for working with collections of identifiable elements in an ergonomic, performant way.
+        .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "0.3.2"),
     ],
     targets: [
-        .target(name: commentsClient, dependencies: [.byName(name: models)]),
+        .target(name: commentsClient, dependencies: [
+            .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
+            .byName(name: models),
+        ]),
         .testTarget(name: commentsClientTests, dependencies: [.byName(name: commentsClient)]),
         
         .target(name: commentsListFeature, dependencies: [

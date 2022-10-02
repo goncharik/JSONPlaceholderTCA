@@ -1,6 +1,8 @@
 import Foundation
 import Combine
+import IdentifiedCollections
 import Models
+
 
 public enum ClientError: Error, Equatable {
     case networkError
@@ -8,7 +10,7 @@ public enum ClientError: Error, Equatable {
 }
 
 public struct CommentsClient {
-    public var fetch: (_ start: Int?, _ limit: Int) -> AnyPublisher<[Comment], ClientError>
+    public var fetch: (_ start: Int?, _ limit: Int) -> AnyPublisher<IdentifiedArrayOf<Comment>, ClientError>
 }
 
 public extension CommentsClient {
@@ -20,7 +22,7 @@ public extension CommentsClient {
                 )
                 .mapError { _ in ClientError.networkError }
                 .tryMap {
-                    try JSONDecoder().decode([Comment].self, from: $0.data)
+                    try JSONDecoder().decode(IdentifiedArrayOf<Comment>.self, from: $0.data)
                 }
                 .mapError { _ in ClientError.decodingError }
                 .eraseToAnyPublisher()

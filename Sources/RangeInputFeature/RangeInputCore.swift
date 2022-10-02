@@ -2,6 +2,7 @@ import CommentsClient
 import CommentsListFeature
 import ComposableArchitecture
 import Foundation
+import IdentifiedCollections
 import Models
 
 // MARK: - State
@@ -26,7 +27,7 @@ public enum RangeInputAction: Equatable {
     case cancelButtonTapped
     case validationMessageDismissed
     
-    case didLoadComments(Result<[Comment], ClientError>)
+    case didLoadComments(Result<IdentifiedArrayOf<Comment>, ClientError>)
     
     case commentsListDismissed
     case commentsList(CommentsListAction)
@@ -69,8 +70,11 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
                 
             }
             state.isLoading = true
-            #warning("Add check for upper bound limit")
-            let limit = 10
+            
+            var limit = 10
+            if let upperBound = state.upperBound {
+                limit = min(10, upperBound - (state.lowerBound ?? 0))
+            }
             
             #warning("Replace with 3 in production")
             let waitSeconds = 1
@@ -80,8 +84,8 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
                 return ()
             }
             .combineLatest(environment.commentsClient.fetch(state.lowerBound, limit).catchToEffect())
-            .map { $1 }
             .eraseToEffect()
+            .map { $0.1 }
             .map(RangeInputAction.didLoadComments)
             .cancellable(id: CancelID.self)
                 
@@ -93,7 +97,7 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
             return .none
         case .didLoadComments(.success(let comments)):
             state.isLoading = false
-            state.commentsListState = .init()
+            state.commentsListState = .init(lowerBound: state.lowerBound ?? 0, upperBound: state.upperBound, items: comments)
             return .none
         case .commentsListDismissed:
             state.commentsListState = nil

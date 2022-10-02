@@ -1,11 +1,30 @@
 import ComposableArchitecture
+import Models
+
 
 // MARK: State
 public struct CommentsListState: Equatable {
 
+    var lowerBound: Int = 0
+    var upperBound: Int? = nil
+    var items: IdentifiedArrayOf<Comment>
+    var canLoadNextPage: Bool
+    
     public init(
+        lowerBound: Int,
+        upperBound: Int?,
+        items: IdentifiedArrayOf<Comment>
     )
     {
+        self.lowerBound = lowerBound
+        self.upperBound = upperBound
+        self.items = items
+        
+        if let upperBound {
+            canLoadNextPage = items.count < upperBound - lowerBound
+        } else {
+            canLoadNextPage = true
+        }
     }
 }
 

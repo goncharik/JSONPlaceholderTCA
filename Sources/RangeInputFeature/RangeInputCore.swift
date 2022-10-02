@@ -79,4 +79,4 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
             return .none
         }
     }
-)
+).debug()

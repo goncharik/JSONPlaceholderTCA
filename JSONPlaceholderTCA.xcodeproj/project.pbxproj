@@ -18,7 +18,7 @@
 		446E445728E475A90099BE33 /* JSONPlaceholderTCAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPlaceholderTCAApp.swift; sourceTree = "<group>"; };
 		446E445B28E475AA0099BE33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		446E445E28E475AA0099BE33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = JSONPlaceholderTCA; sourceTree = "<group>"; };
+		44A49BCE28E93E2B0062AAC2 /*  */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ""; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +36,7 @@
 		446E444B28E475A90099BE33 = {
 			isa = PBXGroup;
 			children = (
-				44C4819328E4851100E1AA71 /* JSONPlaceholderTCA */,
+				44A49BCE28E93E2B0062AAC2 /* JSONPlaceholder-TCA */,
 				446E445628E475A90099BE33 /* App */,
 				446E445528E475A90099BE33 /* Products */,
 				44C4819428E48EDC00E1AA71 /* Frameworks */,

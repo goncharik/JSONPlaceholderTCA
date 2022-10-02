@@ -10,7 +10,7 @@ struct JSONPlaceholderTCAApp: App {
                 store: Store<RangeInputState, RangeInputAction>(
                     initialState: RangeInputState(),
                     reducer: rangeInputReducer,
-                    environment: RangeInputEnvironment(commentsClient: .failure)
+                    environment: RangeInputEnvironment(commentsClient: .live)
                 )
             )
         }

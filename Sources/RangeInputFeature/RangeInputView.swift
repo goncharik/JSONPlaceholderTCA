@@ -48,6 +48,11 @@ public struct RangeInputView: View {
                     self.store.scope(state: \.commentsListState, action: RangeInputAction.commentsList)
                 ) {
                     CommentsListView(store: $0)
+                        .navigationTitle(
+                            Text(
+                                "Comments in [\(viewStore.lowerBound ?? 0), \((viewStore.upperBound != nil) ? "\(viewStore.upperBound!)" : "...")]"
+                            )
+                        )
                 },
               isActive: viewStore.binding(
                 get: { $0.commentsListState != nil },

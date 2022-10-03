@@ -1,3 +1,4 @@
+import CommentRowFeature
 import ComposableArchitecture
 import Models
 
@@ -30,7 +31,7 @@ public struct CommentsListState: Equatable {
 
 // MARK: Actions
 public enum CommentsListAction: Equatable {
-    case placeholder
+    case row(id: Comment.ID, action: CommentRowAction)
 }
 
 // MARK: Environment
@@ -41,10 +42,15 @@ public struct CommentsListEnvironment {
 // MARK: Reducer
 public let commentsListReducer =
 Reducer<CommentsListState, CommentsListAction, CommentsListEnvironment>.combine(
+    commentRowReducer.forEach(
+        state: \.items,
+        action: /CommentsListAction.row(id:action:),
+        environment: { _ in CommentRowEnvironment() }
+      ),
     Reducer<CommentsListState, CommentsListAction, CommentsListEnvironment> {
         state, action, environment in
         switch action {
-		case .placeholder:
+		case .row:
 		    return .none
         }
     }

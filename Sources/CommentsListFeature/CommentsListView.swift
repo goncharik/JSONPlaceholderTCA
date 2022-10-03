@@ -1,5 +1,7 @@
 import SwiftUI
+import CommentRowFeature
 import ComposableArchitecture
+
 
 // MARK:- View
 public struct CommentsListView: View {
@@ -14,21 +16,54 @@ public struct CommentsListView: View {
 
     public var body: some View {
         ZStack {
-            Text("CommentsListView")
+            if viewStore.items.count == 0 {
+                Text("No comments in selected bounds")
+                    .foregroundColor(.secondary)
+            } else {
+                ScrollView {
+                    LazyVStack {
+                        ForEachStore(
+                            self.store.scope(state: \.items, action: CommentsListAction.row(id:action:))
+                        ) { item in
+                            CommentRowView(store: item)
+                                .padding([.top], 2)
+                                .padding([.leading, .trailing])
+                                .padding([.bottom], 6)
+                        }
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 // MARK: Preview
+import Models
+
 struct CommentsListView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsListView(store: Store<CommentsListState, CommentsListAction>(
-            initialState: CommentsListState(lowerBound: 0, upperBound: nil, items: []),
-            reducer: commentsListReducer,
-            environment: CommentsListEnvironment()
+        NavigationView {
+            CommentsListView(store: Store<CommentsListState, CommentsListAction>(
+                initialState: CommentsListState(
+                    lowerBound: 0,
+                    upperBound: nil,
+                    items: [
+                        Comment(postId: 1, id: 1, name: "Name", email: "email@mail.com", body: "Some body text goes here. Some body text goes here."),
+                        Comment(postId: 1, id: 2, name: "Name2", email: "email@mail.com", body: "Some body text goes here. Some body text goes here."),
+                        Comment(postId: 1, id: 3, name: "Name3", email: "email@mail.com", body: "Some body text goes here. Some body text goes here."),
+                    ]
+                ),
+                reducer: commentsListReducer,
+                environment: CommentsListEnvironment()
             )
-        )
+            )
+            .navigationBarTitle(
+                Text(
+                    "Comments"
+                )
+            )
+        }
     }
 }
 

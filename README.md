@@ -1,6 +1,6 @@
 # JSONPlaceholderTCA
 
-Example of modular application with SwiftUI and [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) with [JSONPlaceholder](https://jsonplaceholder.typicode.com) network calls and pagination logic
+Example of modular application with SwiftUI and [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture). It has [JSONPlaceholder](https://jsonplaceholder.typicode.com) network calls and pagination logic
 
 ## Dependencies 
 

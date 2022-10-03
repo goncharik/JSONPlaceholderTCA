@@ -9,7 +9,7 @@ public typealias CommentRowState = Comment
 
 // MARK: Actions
 public enum CommentRowAction: Equatable {
-    case placeholder
+    case appeared
 }
 
 // MARK: Environment
@@ -22,7 +22,7 @@ public let commentRowReducer =
     Reducer<CommentRowState, CommentRowAction, CommentRowEnvironment> {
         state, action, environment in
         switch action {
-		case .placeholder:
+		case .appeared:
 		    return .none
         }
     }
@@ -57,7 +57,9 @@ public struct CommentRowView: View {
         .background(Color.primary.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .shadow(color: Color.primary.opacity(0.15), radius: 3, x: 0, y: 1)
-        
+        .onAppear {
+            viewStore.send(.appeared)
+        }
     }
 }
 

@@ -49,8 +49,18 @@ public struct RangeInputEnvironment {
 
 public let rangeInputReducer =
 Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
+    commentsListReducer
+        .optional()
+        .pullback(
+            state: \.commentsListState,
+            action: /RangeInputAction.commentsList,
+            environment: {
+                CommentsListEnvironment(commentsClient: $0.commentsClient, mainQueue: $0.mainQueue)
+            }
+        ),
     Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment> { state, action, environment in
         enum CancelID {}
+        let defaultLimit = 10
         
         switch action {
         case .updateLowerBound(let bound):
@@ -71,19 +81,22 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
             }
             state.isLoading = true
             
-            var limit = 10
+            var limit = defaultLimit
             if let upperBound = state.upperBound {
-                limit = min(10, upperBound - (state.lowerBound ?? 0))
+                limit = min((upperBound + 1) - (state.lowerBound ?? 0), 10)
             }
             
-            #warning("Replace with 3 in production")
-            let waitSeconds = 1
+            let waitSeconds = 3
             
             return Effect.task {
                 try await environment.mainQueue.sleep(for: .seconds(waitSeconds))
                 return ()
             }
-            .combineLatest(environment.commentsClient.fetch(state.lowerBound, limit).catchToEffect())
+            .combineLatest(
+                environment.commentsClient.fetch(state.lowerBound, limit)
+                    .receive(on: environment.mainQueue)
+                    .catchToEffect()
+            )
             .eraseToEffect()
             .map { $0.1 }
             .map(RangeInputAction.didLoadComments)
@@ -97,7 +110,12 @@ Reducer<RangeInputState, RangeInputAction, RangeInputEnvironment>.combine(
             return .none
         case .didLoadComments(.success(let comments)):
             state.isLoading = false
-            state.commentsListState = .init(lowerBound: state.lowerBound ?? 0, upperBound: state.upperBound, items: comments)
+            state.commentsListState = .init(
+                lowerBound: state.lowerBound ?? 0,
+                upperBound: state.upperBound,
+                limit: defaultLimit,
+                items: comments
+            )
             return .none
         case .commentsListDismissed:
             state.commentsListState = nil

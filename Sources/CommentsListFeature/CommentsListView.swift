@@ -30,6 +30,12 @@ public struct CommentsListView: View {
                                 .padding([.leading, .trailing])
                                 .padding([.bottom], 6)
                         }
+                        if viewStore.isLoading {
+                            ProgressView()
+                            // Note: There seems to be a bug in SwiftUI where the progress view does not show
+                            // a second time unless it is given a new identity.
+                                .id(UUID())
+                        }
                     }
                 }
             }
@@ -48,6 +54,7 @@ struct CommentsListView_Previews: PreviewProvider {
                 initialState: CommentsListState(
                     lowerBound: 0,
                     upperBound: nil,
+                    limit: 1,
                     items: [
                         Comment(postId: 1, id: 1, name: "Name", email: "email@mail.com", body: "Some body text goes here. Some body text goes here."),
                         Comment(postId: 1, id: 2, name: "Name2", email: "email@mail.com", body: "Some body text goes here. Some body text goes here."),
@@ -55,13 +62,14 @@ struct CommentsListView_Previews: PreviewProvider {
                     ]
                 ),
                 reducer: commentsListReducer,
-                environment: CommentsListEnvironment()
+                environment: CommentsListEnvironment(commentsClient: .failure, mainQueue: .main)
             )
             )
             .navigationBarTitle(
                 Text(
-                    "Comments"
-                )
+                    "Comments in selected bounds"
+                ),
+                displayMode: .inline
             )
         }
     }
